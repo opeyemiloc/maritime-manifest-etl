@@ -1,0 +1,30 @@
+Environments
+
+md_env/
+venv/
+env/
+
+Environment Variables (NEVER UPLOAD API KEYS!)
+
+.env
+
+Python Caches
+
+pycache/
+*.pyc
+*.pyo
+*.pyd
+
+Generated Data Files (Optional: remove these if you want to track them)
+
+*.json
+*.pdf
+.md
+perfect_layout_output.txt
+staged_bls.json
+staged_containers.json
+final_data_.json
+
+OS Files
+
+.DS_Store

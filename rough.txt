@@ -1,0 +1,53 @@
+C:\Users\User\Desktop\md_tool\MSC ANA CAMILA III ZA622A TINCAN  PDF.CAL.xlsx
+
+
+
+R03117110000089\nSN:   FX40798197\nTare Weight: 4,700 kgs.\nMN:  HS CODE: 080830\n40' HIGH CUBE\nREEFER\nTemperature :
+  -1.50 C\nCold Treatment: No\nDehumidification: No\nAir Fresh Vents Setting: N
+  o\nAutomatic temperature set point change at FPOD: No\nManual temperature set point change at FPOD: N
+  o\nControl Atmosphere: No\nBulb Mode: No\n1800 CARTON(S) of FRESH PEARS FORM M\nNUMBER MF20190030635 
+  BA NUMBER\nBA05720190004153\nHarmonized Code: 080830\n24709.00\nkgs.\n50.00 cu. m.\n54474.02 lbs.\n1765.72 cu. ft.",
+
+
+There is need to change the logic of the bl and container grabbing
+
+see sample- 
+container_number": "MSBU2363121",
+        "size_type": "20DV",
+        "seals": [
+          "EU29165538"
+        ],
+        "consignee": "YONGXING STEEL COMPANY LTD",
+        "raw_cargo_text": "20' DRY VAN\nSN:   EU29165538\nTare Weight: 2,100 kgs.\nZA622A\nPage 162 of\n164\nLiberia",
+        "product_name": "",
+        "hs_code": "",
+        "form_m": "",
+        "customs_category": ""
+
+this did not grab the remaning content because of the existing constraint we coded into it.
+
+but i noticed something, this line usually signal the end of a BL.
+
+Total number of containers: 10x20' DRY VANcu. m. 200.00kgs.packagesTotal on this bill of lading: 280 BAG
+
+if we had used this to signal a bl grab, the remaning part of the raw cargo text wont have been missed out
+
+so i am thinking
+
+since we have a reference BL and inside the Bls we already know the number of containers associated to the bl and inside it
+
+i am thinking once a BL is grabbed, the script goes to find this line- Total number of containers: 10x20' DRY VANcu. m. 200.00kgs.packagesTotal on this bill of lading: 280 BAG
+
+which signals the end of the BL content,
+before the cleaner.py moduel now kicks into action to remove the jargons
+then the class ContainerSegmenter and pdfsegmenter modules kicks into action using the reference containers from the excel to start its journey
+and there will be a prior count of how many containers its expectimg
+
+so once the scripts start stripping a BL of the containers values
+its keeps count of the number of container its meant to get
+e.g
+if its meant to get 2
+when it gets 2/2, it doesn't just take the few lines after the container number to prevent partial grabbing for ending containers, it grabs the content, minus the jargons we want to remove and only stops until it encounters this line 
+Total number of containers: 10x20' DRY VANcu. m. 200.00kgs.packagesTotal on this bill of lading: 280 BAG
+
+or what do you think is the best approach
