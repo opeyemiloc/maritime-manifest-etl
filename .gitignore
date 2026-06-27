@@ -15,6 +15,14 @@ pycache/
 *.pyo
 *.pyd
 
+Excel and Spreadsheet Files
+
+*.csv
+*.xls
+*.xlsx
+*.xlsm
+*.xlsb
+
 Generated Data Files (Optional: remove these if you want to track them)
 
 *.json
@@ -28,3 +36,5 @@ final_data_.json
 OS Files
 
 .DS_Store
+.gitignore
+.gitkeep
