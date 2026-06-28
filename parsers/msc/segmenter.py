@@ -1,5 +1,5 @@
 import re
-from models import BillOfLading
+from models.models import BillOfLading
 
 class PDFSegmenter:
     def __init__(self):

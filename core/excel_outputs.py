@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+from pathlib import Path
 
 def convert_json_to_excel(json_file_paths: list[str], output_dir: str):
     """
@@ -25,26 +26,34 @@ def convert_json_to_excel(json_file_paths: list[str], output_dir: str):
             df.to_excel(excel_path, index=False)
             
             print(f"✅ Saved: {excel_path}")
+        except FileNotFoundError:
+            print(f"⚠️ Skipped: {filename} (File not found. Did you run the pipeline yet?)")
+        except ValueError:
+            print(f"⚠️ Skipped: {filename} (JSON file is empty or invalid)")
         except Exception as e:
             print(f"❌ Error converting {json_path}: {e}")
 
     print("All files processed!")
 
-
-# Define your file paths as discrete variables here
-ollama_json_output = r"C:\Users\User\Desktop\md_tool\final_data_ollama.json"
-staged_bls_output = r"C:\Users\User\Desktop\md_tool\staged_bls.json"
-staged_containers_output = r"C:\Users\User\Desktop\md_tool\staged_containers.json"
-
-# Define the target export directory
-export_folder = r"C:\Users\User\Desktop\md_tool\Export_Tools"
-
-# Pass one or many variables into the list
-files_to_convert = [
-    ollama_json_output,
-    staged_bls_output,
-    staged_containers_output
-]
-
-# Call the reusable function directly
-convert_json_to_excel(files_to_convert, export_folder)
+if __name__ == "__main__":
+    # Resolve the root directory of the repository (1 level up from core/excel_outputs.py)
+    root_dir = Path(__file__).resolve().parent.parent
+    
+    # Target the new organized outputs folders
+    json_dir = root_dir / "data" / "outputs" / "json"
+    excel_dir = root_dir / "data" / "outputs" / "excel"
+    
+    # Define your file paths based on the new folder structure
+    ollama_json_output = json_dir / "final_data_ollama.json"
+    staged_bls_output = json_dir / "staged_bls.json"
+    staged_containers_output = json_dir / "staged_containers.json"
+    
+    # Pass one or many variables into the list (converting Path objects to strings)
+    files_to_convert = [
+        str(ollama_json_output),
+        str(staged_bls_output),
+        str(staged_containers_output)
+    ]
+    
+    # Call the reusable function directly, exporting the Excels into the excel folder
+    convert_json_to_excel(files_to_convert, str(excel_dir))

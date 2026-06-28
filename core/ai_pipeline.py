@@ -2,7 +2,7 @@ import json
 import os
 import copy
 from dotenv import load_dotenv
-from ai_extractor import CargoAIExtractor
+from core.ai_extractor import CargoAIExtractor
 
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
