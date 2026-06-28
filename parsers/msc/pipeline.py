@@ -1,7 +1,7 @@
 import json
-from excel_reader import ExcelCartographer
-from cleaner import MarkdownCleaner
-from segmenter import PDFSegmenter
+from parsers.msc.excel_reader import ExcelCartographer
+from parsers.msc.cleaner import MarkdownCleaner
+from parsers.msc.segmenter import PDFSegmenter
 
 def process_manifest(excel_filepath: str, markdown_filepath: str) -> dict:
     cartographer = ExcelCartographer()

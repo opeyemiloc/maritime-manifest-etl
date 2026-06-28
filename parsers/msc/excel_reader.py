@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from models import BillOfLading, Container
+from models.models import BillOfLading, Container
 
 class ExcelCartographer:
     def __init__(self):
